@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tdt4240_oving1_task2", "tdt4240-oving1-task2\tdt4240_oving1_task2\tdt4240_oving1_task2.csproj", "{7873DC5D-1D89-4BC0-B9C5-0A5623A13169}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "tdt4240_oving1_task2Content", "tdt4240-oving1-task2\tdt4240_oving1_task2Content\tdt4240_oving1_task2Content.contentproj", "{0427000F-BE35-4357-BCE7-4699D47CB57C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7873DC5D-1D89-4BC0-B9C5-0A5623A13169}.Debug|x86.ActiveCfg = Debug|x86
+		{7873DC5D-1D89-4BC0-B9C5-0A5623A13169}.Debug|x86.Build.0 = Debug|x86
+		{7873DC5D-1D89-4BC0-B9C5-0A5623A13169}.Release|x86.ActiveCfg = Release|x86
+		{7873DC5D-1D89-4BC0-B9C5-0A5623A13169}.Release|x86.Build.0 = Release|x86
+		{0427000F-BE35-4357-BCE7-4699D47CB57C}.Debug|x86.ActiveCfg = Debug|x86
+		{0427000F-BE35-4357-BCE7-4699D47CB57C}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
