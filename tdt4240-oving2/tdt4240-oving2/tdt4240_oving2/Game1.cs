@@ -25,8 +25,6 @@ namespace tdt4240_oving2
         Paddle leftPaddle;
         Paddle rightPaddle;
         Ball ball;
-        int leftScore;
-        int rightScore;
         public enum Direction { LEFT, RIGHT };
         public static int leftBound;
         public static int rightBound;
@@ -36,7 +34,7 @@ namespace tdt4240_oving2
         int secondsUntilGameStarts;
         Random random;
         String winner = null;
-        static readonly int maxPoints = 21;
+        GameScore gameScore;
 
         public Game1()
         {
@@ -52,6 +50,8 @@ namespace tdt4240_oving2
 
             leftBound = 50;
             rightBound = screenWidth - 50;
+
+            gameScore = GameScore.getInstance();
 
             random = new Random();
 
@@ -69,8 +69,7 @@ namespace tdt4240_oving2
             ball.LoadContent();
             ball.reset();
 
-            leftScore = 0;
-            rightScore = 0;
+            gameScore.reset();
             gameState = GameState.CountDown;
             gameStart = DateTime.Now + TimeSpan.FromSeconds(3.99);
         }
@@ -162,13 +161,13 @@ namespace tdt4240_oving2
 
             spriteBatch.DrawString(
                 gameFont,
-                leftScore.ToString(),
+                gameScore.getLeftScore().ToString(),
                 new Vector2(100, 0),
                 Color.White
             );
             spriteBatch.DrawString(
                 gameFont,
-                rightScore.ToString(),
+                gameScore.getRightScore().ToString(),
                 new Vector2(screenWidth - 100, 0),
                 Color.White
             );
@@ -226,8 +225,8 @@ namespace tdt4240_oving2
 
         public void leftMissesBall()
         {
-            rightScore++;
-            if (rightScore >= maxPoints)
+            gameScore.incrementRightScore();
+            if (gameScore.hasRightWon())
             {
                 winner = "Right";
                 resetGame();
@@ -240,8 +239,8 @@ namespace tdt4240_oving2
 
         public void rightMissesBall()
         {
-            leftScore++;
-            if (leftScore >= maxPoints)
+            gameScore.incrementLeftScore();
+            if (gameScore.hasLeftWon())
             {
                 winner = "Left";
                 resetGame();
