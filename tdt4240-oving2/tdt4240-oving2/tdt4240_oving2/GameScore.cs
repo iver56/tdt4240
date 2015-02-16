@@ -13,6 +13,8 @@ namespace tdt4240_oving2
         private int leftScore;
         private int rightScore;
 
+        private GameScore() { }
+
         public static GameScore getInstance()
         {
             return INSTANCE;
