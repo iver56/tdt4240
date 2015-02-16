@@ -16,25 +16,27 @@ namespace tdt4240_oving2
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        SpriteFont gameFont;
-
         public static int screenWidth;
         public static int screenHeight;
-        Paddle leftPaddle;
-        Paddle rightPaddle;
-        Ball ball;
-        public enum Direction { LEFT, RIGHT };
         public static int leftBound;
         public static int rightBound;
-        enum GameState { CountDown, InGame };
-        GameState gameState;
-        DateTime gameStart;
-        int secondsUntilGameStarts;
-        Random random;
-        String winner = null;
-        GameScore gameScore;
+
+        public enum Direction { LEFT, RIGHT };
+
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private SpriteFont gameFont;
+        private Paddle leftPaddle;
+        private Paddle rightPaddle;
+        private Ball ball;
+        private GameState gameState;
+        private GameState countDownState;
+        private GameState inGameState;
+        private Keys[] keys;
+        private DateTime gameStart;
+        private Random random;
+        private String winner = null;
+        private GameScore gameScore;
 
         public Game1()
         {
@@ -52,6 +54,8 @@ namespace tdt4240_oving2
             rightBound = screenWidth - 50;
 
             gameScore = GameScore.getInstance();
+            countDownState = new CountDownState(this);
+            inGameState = new InGameState(this);
 
             random = new Random();
 
@@ -70,7 +74,7 @@ namespace tdt4240_oving2
             ball.reset();
 
             gameScore.reset();
-            gameState = GameState.CountDown;
+            setCountDownState();
             gameStart = DateTime.Now + TimeSpan.FromSeconds(3.99);
         }
 
@@ -105,44 +109,9 @@ namespace tdt4240_oving2
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            Keys[] k = Keyboard.GetState().GetPressedKeys();
+            keys = Keyboard.GetState().GetPressedKeys();
 
-
-            switch (gameState)
-            {
-                case GameState.InGame:
-                    if (k.Contains<Keys>(Keys.W))
-                    {
-                        leftPaddle.moveUp();
-                    }
-                    else if (k.Contains<Keys>(Keys.S))
-                    {
-                        leftPaddle.moveDown();
-                    }
-
-                    if (k.Contains<Keys>(Keys.Up))
-                    {
-                        rightPaddle.moveUp();
-                    }
-                    else if (k.Contains<Keys>(Keys.Down))
-                    {
-                        rightPaddle.moveDown();
-                    }
-
-                    leftPaddle.Update(gameTime);
-                    rightPaddle.Update(gameTime);
-                    ball.Update(gameTime);
-                    break;
-                case GameState.CountDown:
-                    secondsUntilGameStarts = (int)(gameStart - DateTime.Now).TotalSeconds;
-                    if (secondsUntilGameStarts <= 0)
-                    {
-                        gameState = GameState.InGame;
-                    }
-                    break;
-                default:
-                    break;
-            }
+            gameState.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -172,41 +141,7 @@ namespace tdt4240_oving2
                 Color.White
             );
 
-            switch (gameState)
-            {
-                case GameState.InGame:
-                    ball.Draw(gameTime, spriteBatch);
-                    break;
-
-                case GameState.CountDown:
-                    if (null != winner)
-                    {
-                        var winnerString = winner + " wins!";
-                        var scale = (float)(1.5 + 0.5 * Math.Sin(0.008 * (DateTime.Now - gameStart).TotalMilliseconds));
-                        var stringWidth = gameFont.MeasureString(winnerString).Length() * scale;
-                        spriteBatch.DrawString(
-                            gameFont,
-                            winnerString,
-                            new Vector2(screenWidth / 2 - stringWidth / 2, screenHeight / 2 - 90),
-                            Color.White,
-                            0,
-                            new Vector2(0, 0),
-                            scale,
-                            SpriteEffects.None,
-                            0
-                        );
-                    }
-                    spriteBatch.DrawString(
-                        gameFont,
-                        secondsUntilGameStarts.ToString(),
-                        new Vector2(screenWidth / 2, screenHeight / 2),
-                        Color.White
-                    );
-                    break;
-
-                default:
-                    break;
-            }
+            gameState.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
 
@@ -221,6 +156,20 @@ namespace tdt4240_oving2
         public Paddle getRightPaddle()
         {
             return rightPaddle;
+        }
+
+        public Ball getBall()
+        {
+            return ball;
+        }
+
+        public void setCountDownState() {
+            gameState = countDownState;
+        }
+
+        public void setInGameState()
+        {
+            gameState = inGameState;
         }
 
         public void leftMissesBall()
@@ -254,6 +203,26 @@ namespace tdt4240_oving2
         public Random getRandom()
         {
             return random;
+        }
+
+        public SpriteFont getGameFont()
+        {
+            return gameFont;
+        }
+
+        public Keys[] getKeys()
+        {
+            return keys;
+        }
+
+        public DateTime getGameStart()
+        {
+            return gameStart;
+        }
+
+        public String getWinner()
+        {
+            return winner;
         }
     }
 }

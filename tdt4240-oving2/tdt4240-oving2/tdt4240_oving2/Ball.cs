@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace tdt4240_oving2
 {
-    class Ball : Microsoft.Xna.Framework.DrawableGameComponent
+    public class Ball : Microsoft.Xna.Framework.DrawableGameComponent
     {
         private Vector2 position;
         private Vector2 velocity;
